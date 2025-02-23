@@ -1,14 +1,13 @@
 import { useState } from "react"
-import { faCreditCard, faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { faCreditCard, faLightbulb, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AutomatedSavingProcess from "../automatedsavingproccessCard";
 import { useAssistant } from "../../../../react-query/mutation/assistant";
 
 const Income = () => {
   const [amount,setAmount]=useState("0");
   const[suggestion,setSuggestion]=useState("Suggestion will appear here...");
 
-  const{mutate:handleAnalyze} = useAssistant();
+  const{mutate:handleAnalyze,isPending} = useAssistant();
   
 
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -81,7 +80,13 @@ const Income = () => {
               <div className="text-left pt-2 pl-3">
                 <h1 className="text-[#fff] mb-3"><FontAwesomeIcon icon={faLightbulb} style={{ color: "#FFD43B" }} /> Savings Recomendations</h1>
                 <p className="text-[#fff]">
-                  {suggestion}
+                {isPending ? (
+                <span className="flex items-center gap-2">
+                  <FontAwesomeIcon icon={faSpinner} spin /> Loading suggestion...
+                </span>
+              ) : (
+                suggestion
+              )}
                 </p>
               </div>
             </div>
